@@ -1,0 +1,413 @@
+<title>Solacea Money</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400;12..96,75..100,600;12..96,75..100,800&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#EBEEED; --surface:#FFFFFF; --sunk:#E1E6E4;
+  --ink:#0E1618; --ink-2:#3D4B4E; --ink-3:#6B7A7D;
+  --rule:#CBD3D1; --rule-soft:#DDE3E1;
+  --accent:#12695D; --accent-soft:#D3E4E0;
+  --clear:#426B33; --watch:#9A6410; --tripped:#992F26; --idle:#697A7E;
+  --pos:#2F6B43; --neg:#8E3A31;
+  --shadow:0 1px 2px rgba(14,22,24,.06), 0 12px 28px -18px rgba(14,22,24,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B1214; --surface:#121B1D; --sunk:#0A1112;
+    --ink:#E6ECEA; --ink-2:#A2B1B2; --ink-3:#75868A;
+    --rule:#243133; --rule-soft:#1A2426;
+    --accent:#3FB7A2; --accent-soft:#16302E;
+    --clear:#7FB765; --watch:#D7A044; --tripped:#E0685A; --idle:#6C7E82;
+    --pos:#79BC8C; --neg:#E0685A;
+    --shadow:0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0B1214; --surface:#121B1D; --sunk:#0A1112;
+  --ink:#E6ECEA; --ink-2:#A2B1B2; --ink-3:#75868A;
+  --rule:#243133; --rule-soft:#1A2426;
+  --accent:#3FB7A2; --accent-soft:#16302E;
+  --clear:#7FB765; --watch:#D7A044; --tripped:#E0685A; --idle:#6C7E82;
+  --pos:#79BC8C; --neg:#E0685A;
+  --shadow:0 1px 2px rgba(0,0,0,.5), 0 18px 40px -22px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:clamp(24px,5vw,64px) clamp(18px,4vw,40px) 96px;
+  display:flex; flex-direction:column; gap:clamp(28px,4vw,44px)}
+.num{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",sans-serif; text-wrap:balance; margin:0}
+
+/* masthead ------------------------------------------------------------ */
+.mast{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
+  gap:12px; padding-bottom:18px; border-bottom:2px solid var(--ink)}
+.mast h1{font-size:clamp(26px,4vw,38px); font-weight:800; letter-spacing:-.025em; line-height:1}
+.mast h1 span{color:var(--accent)}
+.mast__meta{font-size:12.5px; color:var(--ink-3); text-align:right;
+  text-transform:uppercase; letter-spacing:.09em}
+
+/* the gauge ----------------------------------------------------------- */
+.thesis{display:flex; flex-direction:column; gap:18px}
+.thesis__top{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px}
+.eyebrow{font-size:11.5px; text-transform:uppercase; letter-spacing:.14em;
+  color:var(--ink-3); font-weight:600; margin:0 0 6px}
+.big{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  font-size:clamp(42px,8vw,72px); font-weight:500; line-height:.95; letter-spacing:-.03em}
+.thesis__cap{font-size:13px; color:var(--ink-3); text-align:right; max-width:34ch}
+.thesis__cap b{font-family:"IBM Plex Mono",monospace; color:var(--ink-2); font-weight:500}
+
+.gauge{position:relative; height:44px; background:var(--sunk);
+  border:1px solid var(--rule); border-radius:2px; overflow:hidden}
+.gauge__fill{position:absolute; inset:0 auto 0 0; background:var(--accent); opacity:.9;
+  transition:width .6s cubic-bezier(.22,.7,.24,1)}
+.gauge--clear .gauge__fill{background:var(--clear)}
+.gauge--watch .gauge__fill{background:var(--watch)}
+.gauge--tripped .gauge__fill{background:var(--tripped)}
+.gauge--unknown .gauge__fill{width:0 !important}
+.gauge--unknown{background:repeating-linear-gradient(135deg,var(--sunk) 0 9px,var(--rule-soft) 9px 18px)}
+.gauge__tick{position:absolute; top:0; bottom:0; width:2px; background:var(--ink);
+  opacity:.55}
+.gauge__ticklab{position:absolute; top:calc(100% + 7px); transform:translateX(-50%);
+  font-size:11px; color:var(--ink-3); white-space:nowrap; letter-spacing:.04em}
+.gauge__ticklab.end{right:0; transform:none}
+.scale{position:relative; height:20px}
+/* the labels live INSIDE .scale, so they anchor to its top, not below the gauge */
+.scale .gauge__ticklab{top:0}
+@media (prefers-reduced-motion: reduce){.gauge__fill{transition:none}}
+
+/* the top box: what is about to leave the card ------------------------- */
+.upbox{border:1px solid var(--rule); border-left:3px solid var(--watch); border-radius:3px;
+  background:var(--surface); padding:16px 18px 14px; display:flex; flex-direction:column; gap:12px;
+  box-shadow:var(--shadow)}
+.upbox__head{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between;
+  gap:8px}
+.upbox__head .eyebrow{margin:0; color:var(--watch)}
+.upbox__sum{margin:0; font-size:19px; font-weight:500}
+.upbox__sum i{font-style:normal; color:var(--ink-3); font-size:14px; margin-left:5px}
+.upbox__sum span{font-family:"Public Sans",sans-serif; font-size:11px; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--ink-3); margin-left:9px}
+.u-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.u{display:grid; grid-template-columns:8ch 1fr auto auto; gap:4px 14px; align-items:baseline;
+  padding:8px 0; border-top:1px solid var(--rule-soft); font-size:13.5px}
+.u:first-child{border-top:0; padding-top:0}
+.u__when{color:var(--ink-3); font-size:12px}
+.u__when b{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+  color:var(--ink); font-size:14px; font-weight:600}
+.u__name{font-weight:600}
+.u__date{color:var(--ink-3); font-size:12px; white-space:nowrap}
+.u__amt{white-space:nowrap; text-align:right}
+.u__amt i{font-style:normal; color:var(--ink-3); font-size:12px; margin-left:4px}
+.u__rise{grid-column:2 / -1; font-size:11.5px; color:var(--watch); font-weight:600}
+.u--imminent .u__when b, .u--imminent .u__name{color:var(--tripped)}
+.upbox__foot{margin:0; font-size:12px; color:var(--ink-3)}
+.big-alt{font-size:20px; color:var(--ink-3); margin-top:4px; font-weight:400}
+td.alt, th.alt{color:var(--ink-3); font-size:12.5px}
+
+/* panels -------------------------------------------------------------- */
+.cols{display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(18px,3vw,32px); align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+.panel{background:var(--surface); border:1px solid var(--rule-soft); border-radius:3px;
+  box-shadow:var(--shadow); padding:clamp(18px,2.4vw,26px);
+  display:flex; flex-direction:column; gap:14px}
+.panel h2{font-size:14px; font-weight:600; letter-spacing:.02em}
+.panel h2 small{display:block; font-family:"Public Sans",sans-serif; font-weight:400;
+  font-size:12.5px; color:var(--ink-3); letter-spacing:0; margin-top:3px}
+
+/* guardrails ---------------------------------------------------------- */
+.g-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+.g{display:grid; grid-template-columns:auto 1fr auto; gap:4px 10px; align-items:center;
+  padding:13px 0; border-top:1px solid var(--rule-soft)}
+.g:first-child{border-top:0; padding-top:0}
+.g__dot{width:9px; height:9px; border-radius:50%; background:var(--idle)}
+.g__name{font-weight:600; font-size:14px}
+.g__state{font-size:11px; text-transform:uppercase; letter-spacing:.1em; font-weight:600;
+  color:var(--idle); border:1px solid currentColor; border-radius:100px; padding:2px 9px}
+.g__detail{grid-column:2 / -1; font-size:13px; color:var(--ink-3)}
+.g--clear .g__dot{background:var(--clear)} .g--clear .g__state{color:var(--clear)}
+.g--watch .g__dot{background:var(--watch)} .g--watch .g__state{color:var(--watch)}
+.g--tripped .g__dot{background:var(--tripped)} .g--tripped .g__state{color:var(--tripped)}
+.g--tripped .g__name{color:var(--tripped)}
+.g--unknown .g__dot{background:transparent; border:2px dashed var(--ink-3)}
+.g--early .g__dot{background:var(--accent); opacity:.45}
+
+/* tables -------------------------------------------------------------- */
+.scroll{overflow-x:auto}
+table{width:100%; border-collapse:collapse; font-size:13.5px}
+th,td{text-align:left; padding:9px 0; border-top:1px solid var(--rule-soft); font-weight:400}
+tr:first-child th, tr:first-child td{border-top:0}
+th[scope=row]{color:var(--ink-2); padding-right:16px}
+td.num, th.num{text-align:right; white-space:nowrap; color:var(--ink)}
+thead th{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-3);
+  font-weight:600; border-top:0; border-bottom:1px solid var(--rule); padding-bottom:7px}
+thead th:not(:first-child){text-align:right}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+tr.acct th[scope=row]{font-weight:600; color:var(--ink); padding-top:16px}
+tr.acct td{padding-top:16px; font-weight:600}
+tr.sub th[scope=row]{padding-left:18px; color:var(--ink-3); font-size:12.5px; border-top:0}
+tr.sub td{color:var(--ink-3); font-size:12.5px; border-top:0}
+.total-row th, .total-row td{border-top:2px solid var(--ink); font-weight:600;
+  color:var(--ink); padding-top:12px; font-size:15px}
+
+/* funnel -------------------------------------------------------------- */
+.funnel{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px}
+.funnel li{display:grid; grid-template-columns:12ch 1fr 6ch; gap:10px; align-items:center;
+  font-size:12.5px}
+.f__label{color:var(--ink-2)}
+.f__bar{height:9px; background:var(--sunk); border-radius:1px; overflow:hidden}
+.f__bar span{display:block; height:100%; background:var(--accent); opacity:.75}
+.f__n{text-align:right; color:var(--ink)}
+
+/* notes --------------------------------------------------------------- */
+.notes{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1px;
+  background:var(--rule-soft); border:1px solid var(--rule-soft); border-radius:3px}
+.note{background:var(--surface); padding:16px 18px}
+.note h3{font-size:12.5px; font-weight:600; margin-bottom:5px; color:var(--watch)}
+.note p{margin:0; font-size:12.5px; color:var(--ink-3); line-height:1.5}
+.note code{font-family:"IBM Plex Mono",monospace; font-size:11.5px; background:var(--sunk);
+  padding:1px 4px; border-radius:2px; color:var(--ink-2)}
+.note em{color:var(--ink-2); font-style:italic}
+
+.rule-note{font-size:12.5px; color:var(--ink-3); border-left:2px solid var(--accent);
+  padding-left:12px; margin:0}
+.upcoming{list-style:none; margin:0; padding:0; font-size:12.5px; color:var(--watch);
+  display:flex; flex-direction:column; gap:5px}
+.tag{font-size:10px; text-transform:uppercase; letter-spacing:.1em; padding:1px 6px;
+  border-radius:100px; margin-left:7px; vertical-align:1px; font-weight:600}
+.tag--personal{background:var(--accent-soft); color:var(--accent)}
+.tag--business{background:var(--sunk); color:var(--ink-3)}
+.panel--tax tr.acct th[scope=row]{font-size:14px}
+.owed{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:14px;
+  border:1px solid var(--rule); border-radius:3px; background:var(--sunk); padding:16px 18px}
+.owed--live{border-color:var(--watch); background:var(--surface);
+  box-shadow:inset 3px 0 0 var(--watch)}
+.owed__fig .eyebrow{margin:0 0 4px}
+.owed__n{margin:0; font-size:clamp(26px,4vw,34px); font-weight:500; line-height:1;
+  letter-spacing:-.02em}
+.owed__n i{font-style:normal; font-size:.55em; color:var(--ink-3); margin-left:8px}
+.owed__due{text-align:right; font-size:12px; color:var(--ink-3); line-height:1.5}
+.owed__due b{display:block; font-size:15px; color:var(--ink); font-weight:600}
+.owed__detail{display:flex; flex-direction:column; gap:6px; font-size:12.5px; color:var(--ink-3);
+  border-left:2px solid var(--rule); padding-left:12px}
+.owed__detail p{margin:0}
+.owed__detail b{color:var(--tripped)}
+.prior{margin:0; font-size:12.5px; color:var(--ink-2); border-left:2px solid var(--watch);
+  padding-left:12px; line-height:1.55}
+.prior b{color:var(--ink)}
+.dloan{margin:0; font-size:12.5px; color:var(--ink-2); background:var(--accent-soft);
+  border-radius:3px; padding:12px 14px; line-height:1.55}
+.dloan b{color:var(--ink)}
+.dloan .num{color:var(--ink); font-weight:500; white-space:nowrap}
+footer{font-size:12px; color:var(--ink-3); border-top:1px solid var(--rule-soft); padding-top:18px}
+footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <h1>Solacea <span>money</span></h1>
+    <div class="mast__meta">Last updated 2026-09-10 10:34 +07<br>10 September 2026, ad window from 2026-08-27</div>
+  </header>
+
+  <section class="thesis">
+    <div class="thesis__top">
+      <div>
+        <p class="eyebrow">Running loss against the hard stop</p>
+        <div class="big">$259.15</div>
+        <div class="big-alt num">&pound;191.32</div>
+      </div>
+      <p class="thesis__cap">$280.41 spent, $21.26 of contribution earned back.<br>
+        Breakeven is a <b>pass</b>. Kill on loss, never on spend.</p>
+    </div>
+    <div class="gauge gauge--watch">
+      <div class="gauge__fill" style="width:86.4%"></div>
+      <div class="gauge__tick" style="left:50.0%"></div>
+    </div>
+    <div class="scale">
+      <span class="gauge__ticklab" style="left:0; transform:none">$0</span>
+      <span class="gauge__ticklab" style="left:50.0%">$150.00 zero purchase gate</span>
+      <span class="gauge__ticklab end">$300.00 hard stop</span>
+    </div>
+    <section class="upbox"><div class="upbox__head"><p class="eyebrow">Coming out of your card</p><p class="upbox__sum num">$124.94 <i>&pound;92.24</i><span>next 30 days</span></p></div><ul class="u-list"><li class="u"><span class="u__when"><b>4</b> days</span><span class="u__name">Apify</span><span class="u__date">Mon 14 Sep</span><span class="u__amt num">$22.00 <i>&pound;16.24</i></span></li><li class="u"><span class="u__when"><b>5</b> days</span><span class="u__name">Shopify</span><span class="u__date">Tue 15 Sep</span><span class="u__amt num">$1.35 <i>&pound;1.00</i></span></li><li class="u"><span class="u__when"><b>29</b> days</span><span class="u__name">Codex</span><span class="u__date">Fri 09 Oct</span><span class="u__amt num">$101.59 <i>&pound;75.00</i></span></li></ul><p class="upbox__foot">Cancel or downgrade before the date and it does not land.</p></section>
+  </section>
+
+  <div class="cols">
+    <section class="panel">
+      <h2>Guardrails<small>First to trip ends the test. Run up to 7 days.</small></h2>
+      <ul class="g-list">
+        <li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Tracking or site failure</span><span class="g__state">Clear</span><span class="g__detail">Pixel is receiving events.</span></li>
+<li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Zero purchase gate ($150.00)</span><span class="g__state">Clear</span><span class="g__detail">1 purchases, so this gate cannot trip.</span></li>
+<li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Maximum loss ($300.00)</span><span class="g__state">Clear</span><span class="g__detail">$40.85 of loss headroom left.</span></li>
+<li class="g g--early"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Viability gate</span><span class="g__state">Too early</span><span class="g__detail">Needs 7 days and 15 purchases. At 5 days, 1 purchases.</span></li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Ad efficiency<small>Purchases come from Shopify, never from Meta.</small></h2>
+      <table><tbody><tr><th scope="row">Impressions</th><td class="num">2,863</td></tr>
+<tr><th scope="row">Clicks</th><td class="num">120</td></tr>
+<tr><th scope="row">Click rate</th><td class="num">4.19%</td></tr>
+<tr><th scope="row">Cost per click</th><td class="num">$2.34</td></tr>
+<tr><th scope="row">Cost per thousand</th><td class="num">$97.94</td></tr>
+<tr><th scope="row">Purchases (Shopify)</th><td class="num">1</td></tr>
+<tr><th scope="row">Cost per purchase</th><td class="num">$280.41</td></tr>
+<tr><th scope="row">Contribution per order</th><td class="num">$21.26</td></tr></tbody></table>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Ad P&amp;L by period<small>Net is contribution earned minus what it cost to earn it.</small></h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Period</th><th>Spend</th><th>Orders</th><th>Revenue</th>
+          <th>Contribution</th><th>Net</th><th class="alt">Net GBP</th></tr></thead>
+        <tbody><tr><th scope="row">all time</th><td class="num">$280.41</td><td class="num">1</td><td class="num">$30.95</td><td class="num">$21.26</td><td class="num neg">&minus;$259.15</td><td class="num alt">&minus;&pound;191.32</td></tr>
+<tr><th scope="row">last 7 days</th><td class="num">$0.00</td><td class="num">0</td><td class="num">$0.00</td><td class="num">$0.00</td><td class="num pos">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+<tr><th scope="row">yesterday</th><td class="num">$0.00</td><td class="num">0</td><td class="num">$0.00</td><td class="num">$0.00</td><td class="num pos">$0.00</td><td class="num alt">&pound;0.00</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="cols">
+    <section class="panel">
+      <h2>Total P&amp;L<small>30 days since 2026-08-11. Is the business working.</small></h2>
+      <table>
+        <tbody>
+          <tr><th scope="row">Revenue, net of refunds, excluding tax</th><td class="num">$30.95</td><td class="num alt">&pound;22.85</td></tr>
+<tr><th scope="row">Landed cost of goods</th><td class="num">&minus;$5.51</td><td class="num alt">&minus;&pound;4.07</td></tr>
+<tr><th scope="row">Import duty, ad valorem</th><td class="num">&minus;$2.98</td><td class="num alt">&minus;&pound;2.20</td></tr>
+<tr><th scope="row">Payment processing</th><td class="num">&minus;$1.20</td><td class="num alt">&minus;&pound;0.88</td></tr>
+          <tr class="total-row"><th scope="row">Contribution</th>
+            <td class="num">$21.26</td><td class="num alt">&pound;15.70</td></tr>
+        </tbody>
+      </table>
+      <table>
+        <tbody>
+          <tr><th scope="row">Ad spend</th><td class="num">&minus;$280.41</td><td class="num alt">&minus;&pound;207.02</td></tr><tr><th scope="row">Recurring tools, 9 charges</th><td class="num">&minus;$289.59</td><td class="num alt">&minus;&pound;213.80</td></tr>
+<tr><th scope="row">One off costs</th><td class="num">&minus;$94.82</td><td class="num alt">&minus;&pound;70.00</td></tr>
+          <tr class="total-row"><th scope="row">Net loss to date</th>
+            <td class="num neg">&minus;$643.56</td>
+            <td class="num alt neg">&minus;&pound;475.12</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>The stack<small>$124.94 / &pound;92.24 a month at today's prices.</small></h2>
+      <table><tbody><tr><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr>
+<tr><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr>
+<tr><th scope="row">Shopify</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr>
+<tr><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+<tr><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+<tr><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+<tr><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr></tbody></table>
+      <p class="rule-note">At $21.26 actual blended contribution, the stack alone costs
+        <b>6 orders a month</b> before a dollar of ad spend.</p>
+      <ul class="upcoming"><li>Claude ends 2026-09-08.</li>
+<li>Higgsfield ends 2026-09-08.</li>
+<li>Shopify goes from $1.35 to $33.86 on 2026-11-15, $32.51 a month more.</li></ul>
+    </section>
+  </div>
+
+  <div class="cols">
+    <section class="panel">
+      <h2>Who is paying<small>Business card versus your own money.</small></h2>
+      <table>
+        <tbody>
+          <tr class="total-row"><th scope="row">Total spent to date</th>
+            <td class="num">$664.82</td><td class="num alt">&pound;490.82</td></tr>
+          <tr class="sub"><th scope="row">On the business card</th>
+            <td class="num">$122.59</td><td class="num alt">&pound;90.50</td></tr>
+          <tr class="sub"><th scope="row">On your personal card</th>
+            <td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr>
+        </tbody>
+      </table>
+      <p class="rule-note">The business card pays for everything from 2026-09-02. The personal figure is frozen: it is the spend that predates that date, and the business still owes it back to you.</p>
+
+      <h2>Your money in the business<small>What it owes you back.</small></h2>
+      <div class="scroll">
+        <table>
+          <tbody>
+            <tr class="acct"><th scope="row">Mastercard 7749<span class="tag tag--personal">personal</span></th><td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr><tr class="sub"><th scope="row">Meta ad spend</th><td class="num">$280.41</td><td class="num alt">&pound;207.02</td></tr><tr class="sub"><th scope="row">Claude</th><td class="num">$105.65</td><td class="num alt">&pound;78.00</td></tr><tr class="sub"><th scope="row">Wise Business (Advanced)</th><td class="num">$67.73</td><td class="num alt">&pound;50.00</td></tr><tr class="sub"><th scope="row">Higgsfield</th><td class="num">$59.00</td><td class="num alt">&pound;43.56</td></tr><tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$27.09</td><td class="num alt">&pound;20.00</td></tr><tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr><tr class="sub"><th scope="row">Shopify</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr><tr class="sub"><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">less: paid by business</th><td class="num">&minus;$21.00</td><td class="num alt">&minus;&pound;15.50</td></tr><tr class="acct"><th scope="row">Wise Business<span class="tag tag--business">business</span></th><td class="num">$122.59</td><td class="num alt">&pound;90.50</td></tr><tr class="sub"><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr><tr class="sub"><th scope="row">Meta bill on this card</th><td class="num">$21.00</td><td class="num alt">&pound;15.50</td></tr>
+            <tr class="total-row"><th scope="row">Owed back to you</th>
+              <td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Cash position<small>A different question from profit. Meta bills now, Shopify pays later.</small></h2>
+      <table>
+        <tbody>
+          <tr><th scope="row">Cash out</th><td class="num">&minus;$664.82</td><td class="num alt">&minus;&pound;490.82</td></tr>
+          <tr><th scope="row">Cash in, settled</th><td class="num">$29.75</td><td class="num alt">&pound;21.97</td></tr>
+          <tr><th scope="row">In transit, not yet paid out</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+          <tr class="total-row"><th scope="row">Net cash</th>
+            <td class="num">&minus;$635.07</td><td class="num alt">&minus;&pound;468.86</td></tr>
+        </tbody>
+      </table>
+      <h2 style="margin-top:8px">Ad funnel<small>Attributed to this ad, from Meta Ads Insights.</small></h2>
+      <ul class="funnel"><li><span class="f__label">ViewContent</span><span class="f__bar"><span style="width:100.0%"></span></span><span class="f__n num">68</span></li>
+<li><span class="f__label">AddToCart</span><span class="f__bar"><span style="width:2.9%"></span></span><span class="f__n num">2</span></li>
+<li><span class="f__label">InitiateCheckout</span><span class="f__bar"><span style="width:1.5%"></span></span><span class="f__n num">1</span></li>
+<li><span class="f__label">Purchase</span><span class="f__bar"><span style="width:1.5%"></span></span><span class="f__n num">1</span></li></ul>
+    </section>
+  </div>
+
+  <section class="panel panel--tax">
+    <h2>Tax: money in and money out<small>Adora Crafted Ltd. 2026-08-01 to 2027-07-31. A different question from contribution,
+      which nets cost against revenue per order. This is what came in and what went out.</small></h2>
+    <p class="prior"><b>The accounts due 2027-04-30 cover 2025-08-01 to 2026-07-31 and contain none of this.</b> Everything here belongs to the period after, filed later: accounts due 2028-04-30, corporation tax due 2028-05-01. Tax is due before the return is filed.</p><p class="rule-note">Not VAT registered. The threshold is &pound;90,000 of taxable turnover on a rolling 12 months.</p>
+    <div class="scroll">
+      <table>
+        <tbody>
+          <tr class="acct"><th scope="row">Money in</th><td class="num">$30.95</td><td class="num alt">&pound;22.85</td></tr>
+          <tr class="sub"><th scope="row">Sales, net of refunds, excluding tax</th><td class="num">$30.95</td><td class="num alt">&pound;22.85</td></tr>
+          <tr class="sub"><th scope="row">Orders counted</th>
+            <td class="num">1</td><td class="num alt"></td></tr>
+          <tr class="acct"><th scope="row">Money out</th><td class="num">$674.51</td><td class="num alt">&pound;497.97</td></tr>
+          <tr class="sub"><th scope="row">Cost of goods</th><td class="num">$5.51</td><td class="num alt">&pound;4.07</td></tr>
+<tr class="sub"><th scope="row">Import duty</th><td class="num">$2.98</td><td class="num alt">&pound;2.20</td></tr>
+<tr class="sub"><th scope="row">Payment processing fees</th><td class="num">$1.20</td><td class="num alt">&pound;0.88</td></tr>
+<tr class="sub"><th scope="row">Advertising</th><td class="num">$280.41</td><td class="num alt">&pound;207.02</td></tr>
+<tr class="sub"><th scope="row">Claude</th><td class="num">$105.65</td><td class="num alt">&pound;78.00</td></tr>
+<tr class="sub"><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr>
+<tr class="sub"><th scope="row">Wise Business (Advanced)</th><td class="num">$67.73</td><td class="num alt">&pound;50.00</td></tr>
+<tr class="sub"><th scope="row">Higgsfield</th><td class="num">$59.00</td><td class="num alt">&pound;43.56</td></tr>
+<tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$27.09</td><td class="num alt">&pound;20.00</td></tr>
+<tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr>
+<tr class="sub"><th scope="row">Shopify</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr>
+          <tr class="total-row"><th scope="row">Loss before tax</th>
+            <td class="num neg">&minus;$643.56</td>
+            <td class="num alt neg">&minus;&pound;475.12</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="owed"><div class="owed__fig"><p class="eyebrow">Tax owed so far</p><p class="owed__n num">$0.00 <i>&pound;0.00</i></p></div><div class="owed__due"><span>Due 2028-05-01</span><b class="num">599 days</b></div></div><div class="owed__detail"><p>Nothing owed. The period is running at a loss of &pound;475.12, which carries forward and reduces the tax on the first profitable period.</p><p>An estimate for planning. Not advice, not a return.</p></div>
+    <p class="dloan"><b>Your own money is not income.</b>
+      <span class="num">$542.23 / &pound;400.32</span> is a director's loan, not turnover, and
+      repaying it to yourself is not taxable income to you either. It is tracked separately above
+      for exactly that reason.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">What these numbers are assuming</p>
+    <div class="notes"><div class='note'><h3>Import duty is unconfirmed</h3><p>Modelled as <em>ad valorem</em>. The biggest single unknown in the project. Switch <code>duty.mode</code> in costs.json the moment the supplier answers.</p></div>
+<div class='note'><h3>Pounds are converted, not billed</h3><p>Every GBP figure uses a fixed rate of <b>1.35</b> from costs.json. Codex and Shopify bill in pounds and are exact; Apify bills in dollars, so its pound figure moves with the real rate.</p></div>
+<div class='note'><h3>Payout lag is modelled, not measured</h3><p>Set to 5 days. The <code>read_shopify_payments</code> scope is not on the app, so real payout dates cannot be pulled.</p></div></div>
+  </section>
+
+  <footer>
+    Generated from <code>finance/daily/2026-09-10.json</code> by
+    <code>my-ads/scripts/dashboard.py</code>. Rerun <code>pnl.py</code> then
+    <code>dashboard.py</code> to refresh, and republish to keep the same link.
+  </footer>
+</div>
