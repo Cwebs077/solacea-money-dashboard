@@ -214,7 +214,7 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
 
   <header class="mast">
     <h1>PnL</h1>
-    <div class="mast__meta">Last updated 2026-09-24 11:51 +07<br>24 September 2026, ad window from 2026-01-01</div>
+    <div class="mast__meta">Last updated 2026-09-24 06:48 UTC<br>24 September 2026, ad window from 2026-08-27</div>
   </header>
 
   <section class="thesis">
@@ -243,22 +243,22 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
     <section class="panel">
       <h2>Guardrails<small>First to trip ends the test. Run up to 7 days.</small></h2>
       <ul class="g-list">
-        <li class="g g--unknown"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Tracking or site failure</span><span class="g__state">Unknown</span><span class="g__detail">Ad spend could not be read, so this gate cannot be evaluated.</span></li>
-<li class="g g--unknown"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Zero purchase gate ($150.00)</span><span class="g__state">Unknown</span><span class="g__detail">Ad spend could not be read, so this gate cannot be evaluated.</span></li>
-<li class="g g--unknown"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Maximum loss ($300.00)</span><span class="g__state">Unknown</span><span class="g__detail">Ad spend could not be read, so this gate cannot be evaluated.</span></li>
-<li class="g g--unknown"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Viability gate</span><span class="g__state">Unknown</span><span class="g__detail">Ad spend could not be read, so this gate cannot be evaluated.</span></li>
+        <li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Tracking or site failure</span><span class="g__state">Clear</span><span class="g__detail">Pixel is receiving events.</span></li>
+<li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Zero purchase gate ($150.00)</span><span class="g__state">Clear</span><span class="g__detail">1 purchases, so this gate cannot trip.</span></li>
+<li class="g g--clear"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Maximum loss ($300.00)</span><span class="g__state">Clear</span><span class="g__detail">$40.85 of loss headroom left.</span></li>
+<li class="g g--early"><span class="g__dot" aria-hidden="true"></span><span class="g__name">Viability gate</span><span class="g__state">Too early</span><span class="g__detail">Needs 7 days and 15 purchases. At 5 days, 1 purchases.</span></li>
       </ul>
     </section>
 
     <section class="panel">
       <h2>Ad efficiency<small>Purchases come from Shopify, never from Meta.</small></h2>
-      <table><tbody><tr><th scope="row">Impressions</th><td class="num">0</td></tr>
-<tr><th scope="row">Clicks</th><td class="num">0</td></tr>
-<tr><th scope="row">Click rate</th><td class="num">n/a</td></tr>
-<tr><th scope="row">Cost per click</th><td class="num">n/a</td></tr>
-<tr><th scope="row">Cost per thousand</th><td class="num">n/a</td></tr>
+      <table><tbody><tr><th scope="row">Impressions</th><td class="num">2,863</td></tr>
+<tr><th scope="row">Clicks</th><td class="num">120</td></tr>
+<tr><th scope="row">Click rate</th><td class="num">4.19%</td></tr>
+<tr><th scope="row">Cost per click</th><td class="num">$2.34</td></tr>
+<tr><th scope="row">Cost per thousand</th><td class="num">$97.94</td></tr>
 <tr><th scope="row">Purchases (Shopify)</th><td class="num">1</td></tr>
-<tr><th scope="row">Cost per purchase</th><td class="num">$0.00</td></tr>
+<tr><th scope="row">Cost per purchase</th><td class="num">$280.41</td></tr>
 <tr><th scope="row">Contribution per order</th><td class="num">$21.26</td></tr></tbody></table>
     </section>
   </div>
@@ -269,7 +269,7 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
       <table>
         <thead><tr><th>Period</th><th>Spend</th><th>Orders</th><th>Revenue</th>
           <th>Contribution</th><th>Net</th><th class="alt">Net GBP</th></tr></thead>
-        <tbody><tr><th scope="row">all time</th><td class="num">$0.00</td><td class="num">1</td><td class="num">$30.95</td><td class="num">$21.26</td><td class="num pos">+$21.26</td><td class="num alt">&pound;15.70</td></tr>
+        <tbody><tr><th scope="row">all time</th><td class="num">$280.41</td><td class="num">1</td><td class="num">$30.95</td><td class="num">$21.26</td><td class="num neg">&minus;$259.15</td><td class="num alt">&minus;&pound;191.32</td></tr>
 <tr><th scope="row">last 7 days</th><td class="num">$0.00</td><td class="num">0</td><td class="num">$0.00</td><td class="num">$0.00</td><td class="num pos">$0.00</td><td class="num alt">&pound;0.00</td></tr>
 <tr><th scope="row">yesterday</th><td class="num">$0.00</td><td class="num">0</td><td class="num">$0.00</td><td class="num">$0.00</td><td class="num pos">$0.00</td><td class="num alt">&pound;0.00</td></tr></tbody>
       </table>
@@ -291,11 +291,11 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
       </table>
       <table>
         <tbody>
-          <tr><th scope="row">Ad spend</th><td class="num">Unknown</td><td class="num alt"></td></tr><tr><th scope="row">Recurring tools, 15 charges</th><td class="num">&minus;$312.59</td><td class="num alt">&minus;&pound;230.78</td></tr>
+          <tr><th scope="row">Ad spend</th><td class="num">&minus;$280.41</td><td class="num alt">&minus;&pound;207.02</td></tr><tr><th scope="row">Recurring tools, 15 charges</th><td class="num">&minus;$312.59</td><td class="num alt">&minus;&pound;230.78</td></tr>
 <tr><th scope="row">One off costs</th><td class="num">&minus;$108.60</td><td class="num alt">&minus;&pound;80.17</td></tr>
-          <tr class="total-row"><th scope="row">Net loss to date, excluding ads</th>
-            <td class="num neg">&minus;$399.93</td>
-            <td class="num alt neg">&minus;&pound;295.26</td></tr>
+          <tr class="total-row"><th scope="row">Net loss to date</th>
+            <td class="num neg">&minus;$680.34</td>
+            <td class="num alt neg">&minus;&pound;502.28</td></tr>
         </tbody>
       </table>
     </section>
@@ -324,11 +324,11 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
       <table>
         <tbody>
           <tr class="total-row"><th scope="row">Total spent to date</th>
-            <td class="num">$421.19</td><td class="num alt">&pound;310.95</td></tr>
+            <td class="num">$701.60</td><td class="num alt">&pound;517.98</td></tr>
           <tr class="sub"><th scope="row">On the business card</th>
             <td class="num">$159.37</td><td class="num alt">&pound;117.66</td></tr>
           <tr class="sub"><th scope="row">On your personal card</th>
-            <td class="num">$261.82</td><td class="num alt">&pound;193.30</td></tr>
+            <td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr>
         </tbody>
       </table>
       <p class="rule-note">The business card pays for everything from 2026-09-02. The personal figure is frozen: it is the spend that predates that date, and the business still owes it back to you.</p>
@@ -337,9 +337,9 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
       <div class="scroll">
         <table>
           <tbody>
-            <tr class="acct"><th scope="row">Mastercard 7749<span class="tag tag--personal">personal</span></th><td class="num">$261.82</td><td class="num alt">&pound;193.30</td></tr><tr class="sub"><th scope="row">Claude</th><td class="num">$105.65</td><td class="num alt">&pound;78.00</td></tr><tr class="sub"><th scope="row">Wise Business (Advanced)</th><td class="num">$67.73</td><td class="num alt">&pound;50.00</td></tr><tr class="sub"><th scope="row">Higgsfield</th><td class="num">$59.00</td><td class="num alt">&pound;43.56</td></tr><tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$27.09</td><td class="num alt">&pound;20.00</td></tr><tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr><tr class="sub"><th scope="row">Shopify (Solacea)</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr><tr class="sub"><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">less: paid by business</th><td class="num">&minus;$21.00</td><td class="num alt">&minus;&pound;15.50</td></tr><tr class="acct"><th scope="row">Wise Business<span class="tag tag--business">business</span></th><td class="num">$159.37</td><td class="num alt">&pound;117.66</td></tr><tr class="sub"><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr><tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr><tr class="sub"><th scope="row">Meta bill on this card</th><td class="num">$21.00</td><td class="num alt">&pound;15.50</td></tr><tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$13.78</td><td class="num alt">&pound;10.17</td></tr><tr class="sub"><th scope="row">Shopify (Grippd)</th><td class="num">$1.00</td><td class="num alt">&pound;0.74</td></tr><tr class="sub"><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
+            <tr class="acct"><th scope="row">Mastercard 7749<span class="tag tag--personal">personal</span></th><td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr><tr class="sub"><th scope="row">Meta ad spend</th><td class="num">$280.41</td><td class="num alt">&pound;207.02</td></tr><tr class="sub"><th scope="row">Claude</th><td class="num">$105.65</td><td class="num alt">&pound;78.00</td></tr><tr class="sub"><th scope="row">Wise Business (Advanced)</th><td class="num">$67.73</td><td class="num alt">&pound;50.00</td></tr><tr class="sub"><th scope="row">Higgsfield</th><td class="num">$59.00</td><td class="num alt">&pound;43.56</td></tr><tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$27.09</td><td class="num alt">&pound;20.00</td></tr><tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr><tr class="sub"><th scope="row">Shopify (Solacea)</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr><tr class="sub"><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">less: paid by business</th><td class="num">&minus;$21.00</td><td class="num alt">&minus;&pound;15.50</td></tr><tr class="acct"><th scope="row">Wise Business<span class="tag tag--business">business</span></th><td class="num">$159.37</td><td class="num alt">&pound;117.66</td></tr><tr class="sub"><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr><tr class="sub"><th scope="row">Apify</th><td class="num">$22.00</td><td class="num alt">&pound;16.24</td></tr><tr class="sub"><th scope="row">Meta bill on this card</th><td class="num">$21.00</td><td class="num alt">&pound;15.50</td></tr><tr class="sub"><th scope="row">Namecheap (domain)</th><td class="num">$13.78</td><td class="num alt">&pound;10.17</td></tr><tr class="sub"><th scope="row">Shopify (Grippd)</th><td class="num">$1.00</td><td class="num alt">&pound;0.74</td></tr><tr class="sub"><th scope="row">Microsoft Clarity</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Zoho Mail</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Loox</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr><tr class="sub"><th scope="row">Firecrawl</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
             <tr class="total-row"><th scope="row">Owed back to you</th>
-              <td class="num">$261.82</td><td class="num alt">&pound;193.30</td></tr>
+              <td class="num">$542.23</td><td class="num alt">&pound;400.32</td></tr>
           </tbody>
         </table>
       </div>
@@ -349,15 +349,18 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
       <h2>Cash position<small>A different question from profit. Meta bills now, Shopify pays later.</small></h2>
       <table>
         <tbody>
-          <tr><th scope="row">Cash out</th><td class="num">&minus;$421.19</td><td class="num alt">&minus;&pound;310.95</td></tr>
+          <tr><th scope="row">Cash out</th><td class="num">&minus;$701.60</td><td class="num alt">&minus;&pound;517.98</td></tr>
           <tr><th scope="row">Cash in, settled</th><td class="num">$29.75</td><td class="num alt">&pound;21.97</td></tr>
           <tr><th scope="row">In transit, not yet paid out</th><td class="num">$0.00</td><td class="num alt">&pound;0.00</td></tr>
           <tr class="total-row"><th scope="row">Net cash</th>
-            <td class="num">&minus;$391.44</td><td class="num alt">&minus;&pound;288.99</td></tr>
+            <td class="num">&minus;$671.85</td><td class="num alt">&minus;&pound;496.01</td></tr>
         </tbody>
       </table>
       <h2 style="margin-top:8px">Ad funnel<small>Attributed to this ad, from Meta Ads Insights.</small></h2>
-      <ul class="funnel"></ul>
+      <ul class="funnel"><li><span class="f__label">ViewContent</span><span class="f__bar"><span style="width:100.0%"></span></span><span class="f__n num">68</span></li>
+<li><span class="f__label">AddToCart</span><span class="f__bar"><span style="width:2.9%"></span></span><span class="f__n num">2</span></li>
+<li><span class="f__label">InitiateCheckout</span><span class="f__bar"><span style="width:1.5%"></span></span><span class="f__n num">1</span></li>
+<li><span class="f__label">Purchase</span><span class="f__bar"><span style="width:1.5%"></span></span><span class="f__n num">1</span></li></ul>
     </section>
   </div>
 
@@ -372,10 +375,11 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
           <tr class="sub"><th scope="row">Sales, net of refunds, excluding tax</th><td class="num">$30.95</td><td class="num alt">&pound;22.85</td></tr>
           <tr class="sub"><th scope="row">Orders counted</th>
             <td class="num">1</td><td class="num alt"></td></tr>
-          <tr class="acct"><th scope="row">Money out</th><td class="num">$430.88</td><td class="num alt">&pound;318.11</td></tr>
+          <tr class="acct"><th scope="row">Money out</th><td class="num">$711.29</td><td class="num alt">&pound;525.13</td></tr>
           <tr class="sub"><th scope="row">Cost of goods</th><td class="num">$5.51</td><td class="num alt">&pound;4.07</td></tr>
 <tr class="sub"><th scope="row">Import duty</th><td class="num">$2.98</td><td class="num alt">&pound;2.20</td></tr>
 <tr class="sub"><th scope="row">Payment processing fees</th><td class="num">$1.20</td><td class="num alt">&pound;0.88</td></tr>
+<tr class="sub"><th scope="row">Advertising</th><td class="num">$280.41</td><td class="num alt">&pound;207.02</td></tr>
 <tr class="sub"><th scope="row">Claude</th><td class="num">$105.65</td><td class="num alt">&pound;78.00</td></tr>
 <tr class="sub"><th scope="row">Codex</th><td class="num">$101.59</td><td class="num alt">&pound;75.00</td></tr>
 <tr class="sub"><th scope="row">Wise Business (Advanced)</th><td class="num">$67.73</td><td class="num alt">&pound;50.00</td></tr>
@@ -385,22 +389,21 @@ footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px}
 <tr class="sub"><th scope="row">Shopify (Solacea)</th><td class="num">$1.35</td><td class="num alt">&pound;1.00</td></tr>
 <tr class="sub"><th scope="row">Shopify (Grippd)</th><td class="num">$1.00</td><td class="num alt">&pound;0.74</td></tr>
           <tr class="total-row"><th scope="row">Loss before tax</th>
-            <td class="num neg">&minus;$399.93</td>
-            <td class="num alt neg">&minus;&pound;295.26</td></tr>
+            <td class="num neg">&minus;$680.34</td>
+            <td class="num alt neg">&minus;&pound;502.28</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="owed"><div class="owed__fig"><p class="eyebrow">Tax owed so far</p><p class="owed__n num">$0.00 <i>&pound;0.00</i></p></div><div class="owed__due"><span>Due 2028-05-01</span><b class="num">585 days</b></div></div><div class="owed__detail"><p>Nothing owed. The period is running at a loss of &pound;295.26, which carries forward and reduces the tax on the first profitable period.</p><p>An estimate for planning. Not advice, not a return.</p></div>
+    <div class="owed"><div class="owed__fig"><p class="eyebrow">Tax owed so far</p><p class="owed__n num">$0.00 <i>&pound;0.00</i></p></div><div class="owed__due"><span>Due 2028-05-01</span><b class="num">585 days</b></div></div><div class="owed__detail"><p>Nothing owed. The period is running at a loss of &pound;502.28, which carries forward and reduces the tax on the first profitable period.</p><p>An estimate for planning. Not advice, not a return.</p></div>
     <p class="dloan"><b>Your own money is not income.</b>
-      <span class="num">$261.82 / &pound;193.30</span> is a director's loan, not turnover, and
+      <span class="num">$542.23 / &pound;400.32</span> is a director's loan, not turnover, and
       repaying it to yourself is not taxable income to you either. It is tracked separately above
       for exactly that reason.</p>
   </section>
 
   <section>
     <p class="eyebrow">What these numbers are assuming</p>
-    <div class="notes"><div class='note'><h3>Ad spend unreadable</h3><p>Application request limit reached</p></div>
-<div class='note'><h3>Import duty is unconfirmed</h3><p>Modelled as <em>ad valorem</em>. The biggest single unknown in the project. Switch <code>duty.mode</code> in costs.json the moment the supplier answers.</p></div>
+    <div class="notes"><div class='note'><h3>Import duty is unconfirmed</h3><p>Modelled as <em>ad valorem</em>. The biggest single unknown in the project. Switch <code>duty.mode</code> in costs.json the moment the supplier answers.</p></div>
 <div class='note'><h3>Pounds are converted, not billed</h3><p>Every GBP figure uses a fixed rate of <b>1.35</b> from costs.json. Codex bills in pounds and is exact; Apify and Shopify (Grippd) bill in dollars, so their pound figures move with the real rate.</p></div>
 <div class='note'><h3>Payout lag is modelled, not measured</h3><p>Set to 5 days. The <code>read_shopify_payments</code> scope is not on the app, so real payout dates cannot be pulled.</p></div></div>
   </section>
